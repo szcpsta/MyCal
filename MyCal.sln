@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCal", "MyCal\MyCal.csproj", "{8E886ECC-7BF0-4C6D-B263-1D4068450FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCal.Tests", "MyCal.Tests\MyCal.Tests.csproj", "{0D849365-0729-4072-ACE2-289FE99AB5FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E886ECC-7BF0-4C6D-B263-1D4068450FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E886ECC-7BF0-4C6D-B263-1D4068450FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E886ECC-7BF0-4C6D-B263-1D4068450FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E886ECC-7BF0-4C6D-B263-1D4068450FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D849365-0729-4072-ACE2-289FE99AB5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D849365-0729-4072-ACE2-289FE99AB5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D849365-0729-4072-ACE2-289FE99AB5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D849365-0729-4072-ACE2-289FE99AB5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7F4803A-0896-4581-9AD3-A185D6687479}
+	EndGlobalSection
+EndGlobal

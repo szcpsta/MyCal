@@ -40,6 +40,9 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release --no-build
 
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      
       - name: Generate coverage report
         run: reportgenerator -reports:./TestResults/coverage.cobertura.xml \
                              -targetdir:coveragereport \

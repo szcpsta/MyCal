@@ -39,3 +39,13 @@ jobs:
 
       - name: Test
         run: dotnet test --configuration Release --no-build
+
+      - name: Generate coverage report
+        run: reportgenerator -reports:./TestResults/coverage.cobertura.xml \
+                             -targetdir:coveragereport \
+                             -reporttypes:"Html;MarkdownSummary"
+
+      - name: Comment Coverage
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: coveragereport/Summary.md

@@ -74,11 +74,11 @@ jobs:
 
       - name: Merge Markdown summaries
         run: |
-          echo "## Coverage Report" > final.md
+          echo "# Coverage Report" > final.md
           echo "" >> final.md
 
           for f in summaries/**/SummaryGithub.md; do
-            echo "### $(basename $(dirname $f))" >> final.md
+            echo "## $(basename $(dirname $f))" >> final.md
             echo "" >> final.md
             cat "$f" >> final.md
             echo "" >> final.md

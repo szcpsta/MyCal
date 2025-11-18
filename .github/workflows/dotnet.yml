@@ -51,27 +51,51 @@ jobs:
       - name: Generate GitHub Markdown Summary
         run: |
           reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"MarkdownSummaryGithub"
+      
+      - name: Upload Coverage Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.os }}
+          path: coverage-report/SummaryGithub.md
 
-      - name: Comment Coverage Report
+  
+
+  post-comment:
+    name: Post Coverage Comment
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+
+    steps:
+      - name: Download all coverage summaries
+        uses: actions/download-artifact@v4
+        with:
+          path: summaries
+
+      - name: Merge Markdown summaries
+        run: |
+          echo "## Coverage Report" > final.md
+          echo "" >> final.md
+
+          for f in summaries/**/SummaryGithub.md; do
+            echo "### $(basename $(dirname $f))" >> final.md
+            echo "" >> final.md
+            cat "$f" >> final.md
+            echo "" >> final.md
+          done
+
+      - name: Comment Coverage Report on PR
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            
-            const path = 'coverage-report/SummaryGithub.md';
-
-            if (!fs.existsSync(path)) {
-              core.setFailed("SummaryGithub.md not found");
-              return;
-            }
-
-            const md = fs.readFileSync(path, 'utf8');
+            const body = fs.readFileSync('final.md', 'utf8');
             const pr = context.payload.pull_request.number;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr,
-              body: md
+              body
             });

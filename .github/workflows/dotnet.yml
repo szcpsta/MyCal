@@ -50,10 +50,7 @@ jobs:
 
       - name: Generate GitHub Markdown Summary
         run: |
-          reportgenerator \
-            -reports:"coverage/**/coverage.cobertura.xml" \
-            -targetdir:"coverage-report" \
-            -reporttypes:"MarkdownSummaryGithub"
+          reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"MarkdownSummaryGithub"
 
       - name: Comment Coverage Report
         uses: actions/github-script@v6

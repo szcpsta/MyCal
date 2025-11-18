@@ -3,6 +3,10 @@
 
 name: PR Checks
 
+permissions:
+  contents: write
+  pull-requests: write
+  
 on:
   push:
     branches: [ main, develop, feature/** ]
@@ -37,5 +41,37 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test --configuration Release --no-build
+      - name: Run tests with coverage
+        run: |
+          dotnet test --collect:"XPlat Code Coverage" --results-directory coverage
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate GitHub Markdown Summary
+        run: |
+          reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"MarkdownSummaryGithub"
+
+      - name: Comment Coverage Report
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            const path = 'coverage-report/SummaryGithub.md';
+
+            if (!fs.existsSync(path)) {
+              core.setFailed("SummaryGithub.md not found");
+              return;
+            }
+
+            const md = fs.readFileSync(path, 'utf8');
+            const pr = context.payload.pull_request.number;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr,
+              body: md
+            });
